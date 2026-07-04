@@ -14,20 +14,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // GDPR-Compliant Anonymous visit counter
+    // GDPR-Compliant Anonymous visit counter using Abacus
     async function updateVisitCount() {
         const countElement = document.getElementById('visit-count');
         if (!countElement) return;
 
         try {
-            // counterapi.dev is a free, open, and anonymous counter service
-            // It does not store user IPs, log visitors, or set cookies, ensuring full GDPR compliance.
-            const response = await fetch('https://api.counterapi.dev/v1/musteva-portfolio/visits/up');
+            // Abacus (jasoncameron.dev) is a lightweight, anonymous key-value hit counter.
+            // It is not blocked by ad-blockers, uses no cookies, and logs no personal details (100% GDPR compliant).
+            const response = await fetch('https://abacus.jasoncameron.dev/hit/musteva-portfolio/visits');
             if (response.ok) {
                 const data = await response.json();
-                countElement.textContent = `Page visits: ${data.count}`;
+                countElement.textContent = `Page visits: ${data.value}`;
             } else {
-                throw new Error('API offline or rate-limited');
+                throw new Error('API offline');
             }
         } catch (e) {
             // Local fallback count using localStorage (private to the device)
