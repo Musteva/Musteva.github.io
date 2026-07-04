@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Mustafa DOĞAN</title>
+    <meta name="description" content="Projects page of Mustafa DOĞAN, displaying public and private software repositories in AI, Machine Learning, and Industrial Engineering.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">MUSTAFA DOĞAN</a>
+            <button class="menu-btn" aria-label="Toggle Menu">&#9776;</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="projects.html" class="active">Projects</a></li>
+                <li><a href="articles.html">Articles</a></li>
+                <li><a href="ventures.html">Ventures</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container">
+        
+        <h1 style="margin-bottom: 0.5rem;">Projects & Repositories</h1>
+        <p class="hero-subtitle" style="margin-bottom: 3rem;">A selection of public research, machine learning projects, and generic overviews of private industrial codebases.</p>
+
+        <!-- Public Projects Section -->
+        <section style="margin-bottom: 4rem;">
+            <h2>Public Repositories & Academic Research</h2>
+            
+            <div class="grid-2" style="margin-top: 1.5rem;">
+                
+                <!-- Project: Income Level -->
+                <div class="card">
+                    <div class="card-title">
+                        Income Prediction Model
+                        <span class="card-tag">Public</span>
+                    </div>
+                    <p class="card-desc">
+                        A neural network developed to classify individual income levels from census data. Features a Scikit-learn preprocessing pipeline using ColumnTransformer for scaling and one-hot encoding, achieving 85% validation accuracy.
+                    </p>
+                    <div class="card-footer">
+                        <span class="card-tech">Python / PyTorch / Scikit-learn</span>
+                        <a href="https://github.com/Musteva" target="_blank" rel="noopener noreferrer" style="font-weight: 500;">View Repo &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Project: Web Sentiment Analyzer -->
+                <div class="card">
+                    <div class="card-title">
+                        Web Sentiment Analyzer
+                        <span class="card-tag">Public</span>
+                    </div>
+                    <p class="card-desc">
+                        A full-stack web application designed for sentiment analysis. Implements TextBlob text processing to compute polarity scores and classify input text, featuring a fully integrated Python unittest suite.
+                    </p>
+                    <div class="card-footer">
+                        <span class="card-tech">Python / Flask / Tailwind CSS</span>
+                        <a href="https://github.com/Musteva" target="_blank" rel="noopener noreferrer" style="font-weight: 500;">View Repo &rarr;</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Private / Industrial Projects Section -->
+        <section>
+            <h2>Private Repositories & Industrial Frameworks</h2>
+            <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">Brief, abstract summaries of private repositories and projects developed for corporate systems, internships, or protected academic environments, excluding proprietary identifiers.</p>
+            
+            <div class="grid-2">
+                
+                <!-- Private Project 1: DestinAI -->
+                <div class="card">
+                    <div class="card-title">
+                        DestinAI Travel Engine
+                        <span class="card-tag private">Private</span>
+                    </div>
+                    <p class="card-desc">
+                        A proprietary full-stack travel planner employing a local K-Nearest Neighbors (KNN) core engine to filter and match geographic destinations, integrated with conversational LLM frameworks for personalized itinerary synthesis.
+                    </p>
+                    <div class="card-footer">
+                        <span class="card-tech">Python / Flask / KNN / LLM</span>
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">Private Repository</span>
+                    </div>
+                </div>
+
+                <!-- Private Project 2: Pricing Models -->
+                <div class="card">
+                    <div class="card-title">
+                        Pricing Model Frameworks
+                        <span class="card-tag private">Private Research</span>
+                    </div>
+                    <p class="card-desc">
+                        Proprietary financial analysis detailing core categories of economic and mathematical pricing strategies, under academic advisory. Structured as mathematical optimization algorithms for market simulation.
+                    </p>
+                    <div class="card-footer">
+                        <span class="card-tech">LaTeX / Mathematics</span>
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">Internal Framework</span>
+                    </div>
+                </div>
+
+                <!-- Private Project 3: Market Analysis -->
+                <div class="card">
+                    <div class="card-title">
+                        Market Analysis Prototype
+                        <span class="card-tag private">Private</span>
+                    </div>
+                    <p class="card-desc">
+                        A proprietary algorithmic analysis system that couples real-time cryptocurrency market data streams with GPT-4 prompt parameterization to extract and summarize trend shifts.
+                    </p>
+                    <div class="card-footer">
+                        <span class="card-tech">Python / APIs / GPT-4</span>
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">Private Codebase</span>
+                    </div>
+                </div>
+
+                <!-- Private Project 4: Telecom Infrastructure -->
+                <div class="card">
+                    <div class="card-title">
+                        Telecom Charging Middleware
+                        <span class="card-tag private">Private</span>
+                    </div>
+                    <p class="card-desc">
+                        Developed backend middleware components designed to process and route high-throughput event data streams for telecommunications networks, supporting data parser synchronization and real-time charging computations.
+                    </p>
+                    <div class="card-footer">
+                        <span class="card-tech">C++ / Linux / Data Pipelines</span>
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">Internship Project</span>
+                    </div>
+                </div>
+
+
+
+                <!-- Private Project 6: TaskFlow GenAI -->
+                <div class="card">
+                    <div class="card-title">
+                        AI Workflow Coordinator
+                        <span class="card-tag private">Private</span>
+                    </div>
+                    <p class="card-desc">
+                        A workflow automator combining local task management with generative AI. Uses local large language models to parse complex user task prompts, break them into structured JSON task graphs, and execute subtasks asynchronously.
+                    </p>
+                    <div class="card-footer">
+                        <span class="card-tech">Python / LLMs / JSON-Schema</span>
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">Agentic Tool</span>
+                    </div>
+                </div>
+
+                <!-- Private Project 7: Network Simulation -->
+                <div class="card">
+                    <div class="card-title">
+                        Network Routing Simulator
+                        <span class="card-tag private">Private</span>
+                    </div>
+                    <p class="card-desc">
+                        A simulator built to model and analyze packet traffic across complex network nodes. Used to identify bandwidth bottlenecks, evaluate routing algorithms, and optimize transmission speeds.
+                    </p>
+                    <div class="card-footer">
+                        <span class="card-tech">Python / Graph Algorithms</span>
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">Simulation Model</span>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="https://github.com/Musteva" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="mailto:mustafadoganfucucu@gmail.com">Email</a>
+            </div>
+            <p>&copy; 2026 Mustafa DOĞAN. All rights reserved.</p>
+            <p id="visit-count" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Page visits: Loading...</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

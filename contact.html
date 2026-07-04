@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Mustafa DOĞAN</title>
+    <meta name="description" content="Contact page for Mustafa DOĞAN, Industrial Engineer and AI/ML Developer. Get in touch via email or GitHub.">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .contact-layout {
+            max-width: 600px;
+            margin: 3rem auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2.5rem;
+            background-color: var(--bg-secondary);
+        }
+        .contact-info-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 1.5rem;
+        }
+        .contact-info-list li {
+            margin-bottom: 1.5rem;
+        }
+        .contact-info-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+        .contact-info-val {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .contact-info-val a {
+            color: var(--accent);
+        }
+        .contact-info-val a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">MUSTAFA DOĞAN</a>
+            <button class="menu-btn" aria-label="Toggle Menu">&#9776;</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="articles.html">Articles</a></li>
+                <li><a href="ventures.html">Ventures</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container">
+        
+        <div class="contact-layout">
+            <h2 style="border-bottom: none; margin-top: 0; margin-bottom: 1rem; text-align: center;">Get in Touch</h2>
+            <p style="text-align: center; font-size: 0.95rem; margin-bottom: 2rem;">If you have any questions, startup opportunities, or technical inquiries, feel free to reach out directly.</p>
+            
+            <ul class="contact-info-list">
+                <li>
+                    <div class="contact-info-label">Email</div>
+                    <div class="contact-info-val">
+                        <a href="mailto:mustafadoganfucucu@gmail.com">mustafadoganfucucu@gmail.com</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="contact-info-label">GitHub</div>
+                    <div class="contact-info-val">
+                        <a href="https://github.com/Musteva" target="_blank" rel="noopener noreferrer">github.com/Musteva</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="contact-info-label">Location</div>
+                    <div class="contact-info-val" style="color: var(--text-primary);">İstanbul, Türkiye</div>
+                </li>
+            </ul>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="https://github.com/Musteva" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="mailto:mustafadoganfucucu@gmail.com">Email</a>
+            </div>
+            <p>&copy; 2026 Mustafa DOĞAN. All rights reserved.</p>
+            <p id="visit-count" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Page visits: Loading...</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

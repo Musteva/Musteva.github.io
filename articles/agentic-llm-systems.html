@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architectural Insight to Local and Multimodal Agentic LLM Systems | Mustafa DOĞAN</title>
+    <meta name="description" content="Academic paper by Mustafa DOĞAN exploring self-hosted, multimodal agentic LLM systems for enterprise infrastructure, execution security, and local hardware optimization.">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- MathJax for rendering LaTeX formulas -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">MUSTAFA DOĞAN</a>
+            <button class="menu-btn" aria-label="Toggle Menu">&#9776;</button>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li><a href="../articles.html">Articles</a></li>
+                <li><a href="../ventures.html">Ventures</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container">
+
+        <!-- Back link -->
+        <a href="../index.html" class="back-link">&larr; Back to Portfolio</a>
+
+        <article>
+            <!-- Article Header -->
+            <div class="article-header">
+                <h1 class="article-title">Architectural Insight to Local and Multimodal Agentic LLM Systems: Enterprise Infrastructure, Security, and Engineering Standards</h1>
+                <div class="article-meta">
+                    <span class="article-author">Mustafa DOĞAN</span>
+                    <span class="article-institution">Türkisch-Deutsche Universität</span>
+                    <span class="article-contact">
+                        <a href="https://github.com/Musteva" target="_blank" rel="noopener noreferrer">github.com/Musteva</a> &bull; 
+                        <a href="mailto:mustafadoganfucucu@gmail.com">mustafadoganfucucu@gmail.com</a>
+                    </span>
+                    <span style="margin-top: 1rem;">
+                        <a href="../assets/docs/Architectural_Insight_to_Local_and_Multimodal_Agentic_LLM_Systems.pdf" class="btn btn-secondary btn-sm" download>Download PDF Version</a>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Article Body Content -->
+            <div class="article-content">
+
+                <!-- SECTION 1 -->
+                <section>
+                    <h2>B2B Operational Realities: Cloud Token Economics and Data Sovereignty</h2>
+                    <p>
+                        The rapid evolution of generative AI has exposed critical vulnerabilities in pure cloud-hosted model dependency<sup><a href="#ref-1">1</a></sup>. While early corporate deployments relied heavily on public cloud endpoints, the emergence of multi-agent workflows has created an operational challenge known as the Token Trap<sup><a href="#ref-1">1</a></sup>. Unlike human users who interact with large language models (LLMs) periodically, autonomous agents execute continuous, repetitive, background API calls to complete complex workflows<sup><a href="#ref-1">1</a></sup>. This ongoing background execution can drive exponential token costs under public cloud utility models, turning what seemed like a low-cost proof of concept into a significant operational liability<sup><a href="#ref-1">1</a></sup>.
+                    </p>
+                    <p>
+                        Consequently, switching to self-hosted, on-premise, or private cloud hardware delivers a highly predictable return on investment<sup><a href="#ref-1">1</a></sup>. Local agent computers convert variable, ongoing operational expenditure (OPEX) rental fees into permanent, depreciable capital expenditure (CAPEX) assets<sup><a href="#ref-1">1</a></sup>. Once the underlying physical hardware is provisioned, the marginal cost of generating additional tokens drops to zero<sup><a href="#ref-3">3</a></sup>. This financial predictability is especially critical for international enterprises, as cloud API rates are typically billed in United States Dollars<sup><a href="#ref-2">2</a></sup>. When local operational revenues are generated in depreciating or volatile currencies such as the Brazilian Real or the Mexican Peso, sudden exchange rate fluctuations can dramatically inflate the cost of cloud-hosted inference<sup><a href="#ref-2">2</a></sup>. Shifting 60% to 80% of inference volume to local models insulates the enterprise from currency exchange risks and stabilizes operational budgets<sup><a href="#ref-2">2</a></sup>.
+                    </p>
+                    <p>
+                        Not only financial predictability, but also data sovereignty represents a regulatory constraint<sup><a href="#ref-2">2</a></sup>. Strict frameworks such as the European Union AI Act, General Data Protection Regulation (GDPR), and Health Insurance Portability and Accountability Act (HIPAA) demand most of the time unreachable amount of control over sensitive raw text, patient records, and financial transactions<sup><a href="#ref-3">3</a></sup>. Directing these datasets to external third-party servers presents a significant risk surface<sup><a href="#ref-2">2</a></sup>. Self-hosted architectures ensure that sensitive tokens never leave the corporate intranet, allowing for fully air-gapped agent operations that process protected contracts or sensitive records without violating compliance protocols<sup><a href="#ref-3">3</a></sup>. Additionally, self-hosted deployments insulate enterprises from external API deprecations, sudden price increases, and unpredictable internet latency, thereby guaranteeing strict control over the operational roadmap<sup><a href="#ref-4">4</a></sup>.
+                    </p>
+                    <p>
+                        These B2B operational realities have driven leading organizations to achieve measurable business value through private AI implementations<sup><a href="#ref-8">8</a></sup>. Real-world case studies demonstrate that financial institutions like JPMorgan Chase have successfully reduced fraud, while retail giants like Walmart have optimized inventory pipelines<sup><a href="#ref-8">8</a></sup>. In healthcare, UnitedHealth has automated complex claims processing, and logistics leaders like FedEx have enhanced delivery timelines<sup><a href="#ref-8">8</a></sup>.
+                    </p>
+
+
+
+                    <p>
+                        To replicate these successes, enterprises must carefully evaluate their deployment options across three distinct topologies<sup><a href="#ref-1">1</a></sup>:
+                    </p>
+
+                    <div class="table-wrapper">
+                        <table class="article-table">
+                            <thead>
+                                <tr>
+                                    <th>Deployment Topology</th>
+                                    <th>Architectural Characteristics</th>
+                                    <th>Operational Advantages</th>
+                                    <th>Risk & Complexity Profile</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Fully Hosted / Cloud-Dependent</strong></td>
+                                    <td>Edge devices serve as simple input/output execution engines; all inference workloads run via external APIs<sup><a href="#ref-1">1</a></sup>.</td>
+                                    <td>Access to cutting-edge frontier models; zero upfront hardware infrastructure setup<sup><a href="#ref-1">1</a></sup>.</td>
+                                    <td>Low predictability of recurring costs; data egress risks; rate limits and throttling<sup><a href="#ref-1">1</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hybrid Orchestration</strong></td>
+                                    <td>Workloads are divided between local on-device LLMs and cloud APIs<sup><a href="#ref-1">1</a></sup>.</td>
+                                    <td>Routines and metadata extractions run locally; highly complex reasoning defaults to the cloud<sup><a href="#ref-1">1</a></sup>.</td>
+                                    <td>Requires custom middleware routers to manage dynamic latency and confidence-based handoffs<sup><a href="#ref-2">2</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Fully Local / On-Premise</strong></td>
+                                    <td>Entire agent framework, inference engines, and data storage reside within the private intranet<sup><a href="#ref-1">1</a></sup>.</td>
+                                    <td>Absolute data privacy; zero token-based operational costs; consistent, predictable performance<sup><a href="#ref-1">1</a></sup>.</td>
+                                    <td>High upfront CAPEX; demands specialized in-house machine learning engineering expertise<sup><a href="#ref-4">4</a></sup>.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SECTION 2 -->
+                <section>
+                    <h2>Cognitive Architectures and Multi-Agent Collaboration</h2>
+                    <p>
+                        Implementing an agentic workflow requires translating unstructured human requests into predictable, autonomous system actions<sup><a href="#ref-10">10</a></sup>. The underlying agentic cognitive loop processes information in five distinct phases<sup><a href="#ref-10">10</a></sup>:
+                    </p>
+                    <ul>
+                        <li><strong>Input Ingestion & Natural Language Comprehension:</strong> The system ingests structured or unstructured data from diverse platforms such as CRMs, ERPs, or internal file stores<sup><a href="#ref-10">10</a></sup>. The model parses intent, extracts parameters, and references episodic memory to personalize the interaction<sup><a href="#ref-10">10</a></sup>.</li>
+                        <li><strong>Choice Formulation & Routing:</strong> The agent executes a routing logic<sup><a href="#ref-10">10</a></sup>. For basic tasks, standard deterministic routing suffices<sup><a href="#ref-10">10</a></sup>. For ambiguous conditions, the model determines if it must access external resources (APIs, vector databases) or break down a complex workflow into smaller, sequential steps<sup><a href="#ref-10">10</a></sup>.</li>
+                        <li><strong>Task Fulfillment:</strong> The agent orchestrates its integrations with external systems, executing programmatic queries or transactional writes<sup><a href="#ref-10">10</a></sup>.</li>
+                        <li><strong>Response Cycle & Adaptation:</strong> The system checks the outcomes of its actions against execution standards<sup><a href="#ref-10">10</a></sup>. Feedback loops modify the agent’s path, allowing the model to correct errors before final output delivery<sup><a href="#ref-10">10</a></sup>.</li>
+                        <li><strong>State Persistency & Memory Synchronization:</strong> The final state, output schemas, and conversation histories are persisted<sup><a href="#ref-10">10</a></sup>.</li>
+                    </ul>
+                    <p>
+                        To optimize execution within consumer-grade or mid-range local enterprise hardware, modern architectures utilize a two-tier work division<sup><a href="#ref-4">4</a></sup>. Rather than relying on a single large model to handle all computational tasks, systems pair a larger Lead Agent model with multiple specialized Worker models<sup><a href="#ref-4">4</a></sup>:
+                    </p>
+                    <ul>
+                        <li><strong>The Lead Agent / Senior Architect:</strong> This model utilizes a larger parameter weight footprint or a Mixture-of-Experts (MoE) design with a large context window<sup><a href="#ref-4">4</a></sup>. It processes high-level system logic, defines application architecture, manages task delegation, and routes sub-tasks to downstream pipelines<sup><a href="#ref-4">4</a></sup>.</li>
+                        <li><strong>The Worker Agent / Junior Developer:</strong> These are highly optimized, dense, or sparse low-parameter models<sup><a href="#ref-4">4</a></sup>. They execute fast, precise, repetitive tasks such as standard unit code generation, metadata extraction, or text-to-JSON serialization<sup><a href="#ref-4">4</a></sup>.</li>
+                    </ul>
+                    <p>
+                        This two-tier split significantly reduces overall compute demands<sup><a href="#ref-4">4</a></sup>. For example, a Lead Agent utilizing a 35-billion parameter MoE model (with only 3-billion active parameters per token) can handle high-level logic, while a dense 4-billion parameter model executes standard sub-tasks, ensuring high throughput across the entire workflow<sup><a href="#ref-4">4</a></sup>. To ensure reliability, local runners use context-free grammars to force models to adhere strictly to JSON schemas, preventing the syntax hallucinations that would otherwise break downstream processing<sup><a href="#ref-3">3</a></sup>.
+                    </p>
+
+
+
+                    <p>
+                        Selecting self-hosted models requires matching the task complexity to the hardware footprint<sup><a href="#ref-14">14</a></sup>. The following table evaluates the leading open-source models optimized for enterprise agentic workflows<sup><a href="#ref-14">14</a></sup>:
+                    </p>
+
+                    <div class="table-wrapper">
+                        <table class="article-table">
+                            <thead>
+                                <tr>
+                                    <th>Model Family & Variant</th>
+                                    <th>Parameter Count (Total / Active)</th>
+                                    <th>Native Context Window</th>
+                                    <th>Target Hardware Requirements</th>
+                                    <th>Primary Enterprise Application</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>GLM-5.2</strong></td>
+                                    <td>753B Total / 40B Active (MoE)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>1M Tokens<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>Multi-GPU Node (4x H100/H200 80GB)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>Long-horizon repository-level coding; complex multi-document reasoning<sup><a href="#ref-15">15</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Kimi K2.7 Code</strong></td>
+                                    <td>1T Total / 32B Active (MoE)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>256K Tokens<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>8x H100/H200 80GB GPU Node<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>Agent-swarm coordination; complex tool calling across long sessions<sup><a href="#ref-15">15</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>MiniMax M3</strong></td>
+                                    <td>428B Total (MoE)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>1M Tokens<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>3-4x H100 80GB GPU Node<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>Low-prefill latency retrieval over massive files via Sparse Attention<sup><a href="#ref-15">15</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Qwen 3.6 35B-A3B</strong></td>
+                                    <td>35B Total / 3B Active (MoE)<sup><a href="#ref-14">14</a></sup></td>
+                                    <td>262K Tokens<sup><a href="#ref-14">14</a></sup></td>
+                                    <td>Single consumer GPU (RTX 4090/5090)<sup><a href="#ref-14">14</a></sup></td>
+                                    <td>High-throughput, cost-efficient edge agent; local routing and planning<sup><a href="#ref-4">4</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Gemma 4 26B-A4B</strong></td>
+                                    <td>26B Total / 3.8B Active (MoE)<sup><a href="#ref-14">14</a></sup></td>
+                                    <td>256K Tokens<sup><a href="#ref-14">14</a></sup></td>
+                                    <td>Standard workstation or Intel Xeon CPU<sup><a href="#ref-14">14</a></sup></td>
+                                    <td>High-speed local text extraction and categorization<sup><a href="#ref-2">2</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>IBM Granite Code (34B)</strong></td>
+                                    <td>34B Mamba-2 Hybrid<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>128K Tokens</td>
+                                    <td>Standard workstation / Laptop<sup><a href="#ref-14">14</a></sup></td>
+                                    <td>Memory-efficient coding assistant with 70% lower RAM footprint<sup><a href="#ref-15">15</a></sup>.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>
+                        To coordinate these models, enterprise architects must select an orchestration framework that matches their workflow requirements<sup><a href="#ref-13">13</a></sup>. The following table compares the leading frameworks across key deployment dimensions<sup><a href="#ref-13">13</a></sup>:
+                    </p>
+
+                    <div class="table-wrapper">
+                        <table class="article-table">
+                            <thead>
+                                <tr>
+                                    <th>Orchestration Framework</th>
+                                    <th>Primary Programming Model</th>
+                                    <th>State Persistence Mechanism</th>
+                                    <th>Learning Curve</th>
+                                    <th>Ideal Enterprise Use Case</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>LangGraph</strong></td>
+                                    <td>Directed graphs with conditional edges<sup><a href="#ref-13">13</a></sup>.</td>
+                                    <td>Stateful, transactional database checkpoints<sup><a href="#ref-13">13</a></sup>.</td>
+                                    <td>Medium to High<sup><a href="#ref-13">13</a></sup>.</td>
+                                    <td>Regulated workflows requiring complex loops and human-in-the-loop approvals<sup><a href="#ref-13">13</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CrewAI</strong></td>
+                                    <td>Role-based autonomous agent crews<sup><a href="#ref-18">18</a></sup>.</td>
+                                    <td>Task outputs passed sequentially; A2A protocols<sup><a href="#ref-12">12</a></sup>.</td>
+                                    <td>Low<sup><a href="#ref-13">13</a></sup>.</td>
+                                    <td>Rapid prototyping of sequential business operations<sup><a href="#ref-13">13</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>OpenAI Agents SDK</strong></td>
+                                    <td>Explicit agent-to-agent handoffs<sup><a href="#ref-13">13</a></sup>.</td>
+                                    <td>Ephemeral context variables<sup><a href="#ref-13">13</a></sup>.</td>
+                                    <td>Low<sup><a href="#ref-13">13</a></sup>.</td>
+                                    <td>Clean, opinionated handoffs within standardized OpenAI environments<sup><a href="#ref-13">13</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Claude Agent SDK</strong></td>
+                                    <td>Tool-use chain with sub-agents<sup><a href="#ref-13">13</a></sup>.</td>
+                                    <td>Integration via Model Context Protocol (MCP)<sup><a href="#ref-13">13</a></sup>.</td>
+                                    <td>Medium<sup><a href="#ref-13">13</a></sup>.</td>
+                                    <td>Complex browser automation and safety-first extended thinking workflows<sup><a href="#ref-13">13</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Google ADK</strong></td>
+                                    <td>Hierarchical agent trees<sup><a href="#ref-13">13</a></sup>.</td>
+                                    <td>Session state with pluggable backends<sup><a href="#ref-13">13</a></sup>.</td>
+                                    <td>Medium<sup><a href="#ref-13">13</a></sup>.</td>
+                                    <td>Cross-framework orchestration and multimodal applications<sup><a href="#ref-13">13</a></sup>.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SECTION 3 -->
+                <section>
+                    <h2>Unified Data Access and the Model Context Protocol</h2>
+                    <p>
+                        Integrating local agents into enterprise environments requires addressing the \(N \times M\) integration problem<sup><a href="#ref-20">20</a></sup>. When a company maintains \(N\) distinct agent applications and \(M\) internal data sources (such as databases, file shares, and SaaS APIs), building custom integrations for each connection results in a complex, fragile architecture<sup><a href="#ref-20">20</a></sup>. If any model provider updates their API or a target system modifies its schema, multiple integrations can break simultaneously<sup><a href="#ref-20">20</a></sup>.
+                    </p>
+                    <p>
+                        The Model Context Protocol (MCP) solves this challenge by standardizing how applications connect to data sources<sup><a href="#ref-20">20</a></sup>. Much like a physical USB-C port standardizes hardware connections, MCP acts as a universal adapter for AI systems<sup><a href="#ref-20">20</a></sup>. Under this architecture, developers implement the protocol just once for each client and server, reducing the total number of integrations from \(N \times M\) to \(N + M\).
+                    </p>
+                    <p>
+                        MCP utilizes a client-server architecture inspired by the Language Server Protocol (LSP)<sup><a href="#ref-21">21</a></sup>. The host application runs lightweight MCP client sessions that communicate with standalone MCP servers over JSON-RPC 2.0 transport channels<sup><a href="#ref-20">20</a></sup>. Standard input/output (stdio) is used for local resources to ensure fast, synchronous message transmission, while Server-Sent Events (SSE) over HTTP handle remote services<sup><a href="#ref-20">20</a></sup>. The MCP protocol establishes a secure, two-way bridge using three primary primitives<sup><a href="#ref-22">22</a></sup>:
+                    </p>
+                    <ul>
+                        <li><strong>Tools:</strong> Standardized functions exposed to the LLM (such as executing SQL queries or editing files)<sup><a href="#ref-20">20</a></sup>.</li>
+                        <li><strong>Resources:</strong> Contextual data objects identified by unique URIs (such as real-time database schemas or file contents)<sup><a href="#ref-22">22</a></sup>.</li>
+                        <li><strong>Prompts:</strong> Pre-packaged templates that standardize how the model interacts with external tools<sup><a href="#ref-22">22</a></sup>.</li>
+                    </ul>
+                    <p>
+                        By decoupling data access from model logic, MCP allows enterprises to securely expose live resources without pre-indexing them into standard RAG search indexes<sup><a href="#ref-11">11</a></sup>.
+                    </p>
+                    <p>
+                        The following table details the standard enterprise MCP servers used to expose system resources to local agents<sup><a href="#ref-23">23</a></sup>:
+                    </p>
+
+                    <div class="table-wrapper">
+                        <table class="article-table">
+                            <thead>
+                                <tr>
+                                    <th>MCP Server</th>
+                                    <th>Core Primitives & Tools Exposed</th>
+                                    <th>Primary Target Systems</th>
+                                    <th>Real-World Enterprise Application</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Official GitHub Server</strong></td>
+                                    <td>list_files, create_issue, open_pr, run_workflow, search_code<sup><a href="#ref-23">23</a></sup>.</td>
+                                    <td>Git Repositories<sup><a href="#ref-21">21</a></sup>.</td>
+                                    <td>Automating code reviews, repository management, and PR descriptions<sup><a href="#ref-23">23</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Slack Server</strong></td>
+                                    <td>send_message, list_channels, add_reaction, search_messages, upload_file<sup><a href="#ref-23">23</a></sup>.</td>
+                                    <td>Slack Web API<sup><a href="#ref-23">23</a></sup>.</td>
+                                    <td>Real-time workspace notifications and automated channel moderation<sup><a href="#ref-11">11</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>BigQuery Server</strong></td>
+                                    <td>execute_sql, list_dataset_ids, get_table_info, dry_run_cost, stream_results<sup><a href="#ref-23">23</a></sup>.</td>
+                                    <td>Google Cloud Data Warehouses<sup><a href="#ref-23">23</a></sup>.</td>
+                                    <td>Dynamic database lookup and schema analysis without manual SQL coding<sup><a href="#ref-23">23</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Windows CLI Server</strong></td>
+                                    <td>execute_command, execute_powershell, list_running_processes, get_system_info<sup><a href="#ref-23">23</a></sup>.</td>
+                                    <td>Host OS Automation<sup><a href="#ref-23">23</a></sup>.</td>
+                                    <td>Automated system administration, monitoring, and network configuration<sup><a href="#ref-23">23</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Figma Dev Mode Server</strong></td>
+                                    <td>get_frame_geometry, list_components, get_design_tokens, export_svg<sup><a href="#ref-23">23</a></sup>.</td>
+                                    <td>Figma Design Assets<sup><a href="#ref-23">23</a></sup>.</td>
+                                    <td>Streamlining design-to-code pipelines and asset extraction<sup><a href="#ref-23">23</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CData SharePoint Server</strong></td>
+                                    <td>Standard SharePoint lists, libraries, and permission metadata access<sup><a href="#ref-23">23</a></sup>.</td>
+                                    <td>SharePoint Document Management<sup><a href="#ref-23">23</a></sup>.</td>
+                                    <td>Secure document search across corporate intranets while respecting existing ACLs<sup><a href="#ref-23">23</a></sup>.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SECTION 4 -->
+                <section>
+                    <h2>Advanced Multimodal Retrieval-Augmented Generation</h2>
+                    <p>
+                        Traditional text-only RAG pipelines struggle when indexing complex business documents<sup><a href="#ref-26">26</a></sup>. When parsing research papers, financial reports, or engineering manuals, text-only systems strip away formatting, layout structure, and spatial relationships<sup><a href="#ref-26">26</a></sup>. If a system splits a table into plain text chunks or isolates an image from its caption, the model loses the semantic context needed to answer user queries accurately<sup><a href="#ref-26">26</a></sup>.
+                    </p>
+                    <p>
+                        To solve this, modern multimodal RAG architectures use three primary ingestion patterns<sup><a href="#ref-28">28</a></sup>. The first, <strong>Caption-and-Index</strong>, extracts images, uses a VLM to generate textual descriptions, and embeds those descriptions as standard text<sup><a href="#ref-26">26</a></sup>. This allows organizations to reuse their existing text-only pipelines, though it is highly lossy and prone to incorporating VLM hallucinations directly into the index<sup><a href="#ref-28">28</a></sup>. The second, <strong>Unified Embeddings</strong>, maps both text and images into a single vector space (using models like Cohere Embed 4)<sup><a href="#ref-28">28</a></sup>. This supports cross-modal queries and avoids document parsing, though compressing an entire page into a single vector can lose fine-grained details<sup><a href="#ref-28">28</a></sup>.
+                    </p>
+                    <p>
+                        The third approach, <strong>Page-as-Image with Late Interaction (ColPali)</strong>, bypasses document parsing and OCR entirely<sup><a href="#ref-28">28</a></sup>. The pipeline renders document pages as high-resolution images and feeds them directly into a vision-language model, allowing the system to interpret layouts, tables, and charts just as a human reader would<sup><a href="#ref-28">28</a></sup>.
+                    </p>
+                    <p>
+                        ColPali uses a vision-language backbone (such as PaliGemma or ColQwen2) to divide a page image into a grid of patches (typically \(32 \times 32\), producing 1024 patches per page)<sup><a href="#ref-29">29</a></sup>. It generates a contextualized embedding for each patch, maintaining the spatial and typographic structure of the document<sup><a href="#ref-29">29</a></sup>.
+                    </p>
+                    <p>
+                        At query time, the user's text query is tokenized and embedded<sup><a href="#ref-29">29</a></sup>. The system calculates the similarity score using the MaxSim operator, matching each query token to the most visually and semantically similar document patch<sup><a href="#ref-29">29</a></sup>:
+                    </p>
+
+                    <div class="math-display">
+                        \[\text{MaxSim}(Q, D) = \sum_{i=1}^{|Q|} \max_{j=1}^{|D|} (\mathbf{q}_i \cdot \mathbf{d}_j^T)\]
+                    </div>
+
+                    <p>
+                        where \(\mathbf{q}_i\) represents the \(i\)-th query token embedding and \(\mathbf{d}_j\) is the \(j\)-th document patch embedding<sup><a href="#ref-29">29</a></sup>. This late-interaction mechanism ensures that matching occurs at token-patch granularity, delivering superior recall on complex layouts<sup><a href="#ref-28">28</a></sup>.
+                    </p>
+
+                    <div class="article-image-box">
+                        <img src="../assets/images/B2B_localization_example.png" alt="Late-Interaction and Multi-Vector Retrieval Framework">
+                        <div class="article-image-caption">Figure 1: Late-interaction and multi-vector retrieval framework.</div>
+                    </div>
+
+
+
+                    <p>
+                        Storing multiple vectors per document can significantly increase VRAM and storage overhead<sup><a href="#ref-3">3</a></sup>. To mitigate this, developers optimize Qdrant or Milvus databases by turning off standard HNSW graph indexing on the multi-vector field (setting \(m = 0\))<sup><a href="#ref-32">32</a></sup>. This reduces RAM usage and speeds up insert times by avoiding the need to build and maintain complex graphs for thousands of subvectors<sup><a href="#ref-34">34</a></sup>. Instead, the system uses a dense single-vector index to quickly retrieve the top candidates, then performs late-interaction MaxSim scoring solely on those candidates to deliver precise, re-ranked results in a single call<sup><a href="#ref-34">34</a></sup>.
+                    </p>
+                    <p>
+                        To handle visual processing errors, architectures implement three key mitigations: requiring the VLM to output a step-by-step reasoning chain, cross-checking extracted values against structured text parsed at ingestion, and treating hedged answers as a signal for human-in-the-loop review<sup><a href="#ref-28">28</a></sup>.
+                    </p>
+                    <p>
+                        The following table compares these three RAG approaches across storage, query, and operational dimensions<sup><a href="#ref-28">28</a></sup>:
+                    </p>
+
+                    <div class="table-wrapper">
+                        <table class="article-table">
+                            <thead>
+                                <tr>
+                                    <th>RAG Approach</th>
+                                    <th>Storage Size per 10M Pages</th>
+                                    <th>Average Query Cost</th>
+                                    <th>Visual & Layout Recall</th>
+                                    <th>Implementation Complexity</th>
+                                    <th>Primary Technical Bottleneck</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Caption-and-Index</strong></td>
+                                    <td>Tens of Gigabytes (GB)<sup><a href="#ref-28">28</a></sup></td>
+                                    <td>Low (single-digit cents)<sup><a href="#ref-28">28</a></sup></td>
+                                    <td>Low (loses spatial structure and formatting)<sup><a href="#ref-28">28</a></sup></td>
+                                    <td>Low (reuses existing text pipelines)<sup><a href="#ref-28">28</a></sup></td>
+                                    <td>High error rate from compounding VLM caption hallucinations<sup><a href="#ref-28">28</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Unified Embeddings</strong></td>
+                                    <td>Tens of Gigabytes (GB)<sup><a href="#ref-28">28</a></sup></td>
+                                    <td>Moderate (embedding API + retrieval)<sup><a href="#ref-28">28</a></sup></td>
+                                    <td>Moderate (coarser page-level matching)<sup><a href="#ref-28">28</a></sup></td>
+                                    <td>Moderate (requires unified embedding API)<sup><a href="#ref-28">28</a></sup></td>
+                                    <td>Model capacity to compress complete pages into a single vector<sup><a href="#ref-28">28</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Page-as-Image (ColPali)</strong></td>
+                                    <td>Multiple Terabytes (TB)<sup><a href="#ref-28">28</a></sup></td>
+                                    <td>High (requires self-hosted GPU retrieval)<sup><a href="#ref-28">28</a></sup></td>
+                                    <td>Outstanding (interprets layouts, tables, and graphics)<sup><a href="#ref-26">26</a></sup></td>
+                                    <td>High (requires custom vector configurations)<sup><a href="#ref-28">28</a></sup></td>
+                                    <td>Multi-vector storage requirements and MaxSim query latency<sup><a href="#ref-28">28</a></sup>.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SECTION 5 -->
+                <section>
+                    <h2>Execution Security, Sandboxing, and Runtime Governance</h2>
+                    <p>
+                        Giving non-deterministic models execution privileges introduces severe security vulnerabilities<sup><a href="#ref-25">25</a></sup>. Malicious agents can execute unintended system commands, alter environment files, or access system credentials<sup><a href="#ref-25">25</a></sup>. Opposite scenarios, indirect prompt injection where a model processes external data containing hidden instructions can hijack the agent loop, driving unauthorized data exfiltration or system modification<sup><a href="#ref-25">25</a></sup>.
+                    </p>
+                    <p>
+                        To get rid of these risks, one can utilize isolated sandboxing runtimes<sup><a href="#ref-25">25</a></sup>. This architecture places the model's tool execution environment within a secure sandbox, preventing unintended access to host resources<sup><a href="#ref-25">25</a></sup>. The following table compares the leading sandboxing technologies used to secure agentic workflows<sup><a href="#ref-25">25</a></sup>:
+                    </p>
+
+                    <div class="table-wrapper">
+                        <table class="article-table">
+                            <thead>
+                                <tr>
+                                    <th>Isolation Tier</th>
+                                    <th>Technology Options</th>
+                                    <th>Execution Mechanism</th>
+                                    <th>Latency & Startup Overhead</th>
+                                    <th>Security Boundary & Performance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>OS-Level Isolation</strong></td>
+                                    <td>Linux Bubblewrap, macOS Seatbelt (sandbox-exec)<sup><a href="#ref-25">25</a></sup>.</td>
+                                    <td>Shares the host kernel; restricts filesystem views and system capabilities<sup><a href="#ref-25">25</a></sup>.</td>
+                                    <td>Very Low (sub-millisecond startup)<sup><a href="#ref-25">25</a></sup>.</td>
+                                    <td>Moderate; kernel exploits can lead to host compromise<sup><a href="#ref-25">25</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Container-Based Sandboxing</strong></td>
+                                    <td>Docker, Podman, Glean Agent Sandbox<sup><a href="#ref-25">25</a></sup>.</td>
+                                    <td>Isolated namespaces using lightweight, containerized environments<sup><a href="#ref-25">25</a></sup>.</td>
+                                    <td>Low to Moderate<sup><a href="#ref-25">25</a></sup>.</td>
+                                    <td>High; secure container setups prevent data and system access<sup><a href="#ref-25">25</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>MicroVM Isolation</strong></td>
+                                    <td>Microsandbox, Matchlock<sup><a href="#ref-25">25</a></sup>.</td>
+                                    <td>Runs isolated workloads inside lightweight Virtual Machines<sup><a href="#ref-25">25</a></sup>.</td>
+                                    <td>Moderate (higher CPU and RAM footprint)<sup><a href="#ref-25">25</a></sup>.</td>
+                                    <td>Excellent; strong hypervisor-level isolation<sup><a href="#ref-25">25</a></sup>.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>
+                        To secure these environments, architects must implement mandatory runtime controls<sup><a href="#ref-27">27</a></sup>. By default, sandboxes operate with restricted network access<sup><a href="#ref-27">27</a></sup>. Any necessary outbound internet calls (such as model provider endpoints) are regulated through strict domain allowlisting, while inbound access is restricted to authenticated internal systems<sup><a href="#ref-27">27</a></sup>. Furthermore, the sandbox only exposes explicitly allowlisted tools restricting write operations to prevent accidental data deletion or unauthorized system changes<sup><a href="#ref-27">27</a></sup>. These layers protect enterprise systems while allowing models to safely execute analysis code and run programmatic commands<sup><a href="#ref-27">27</a></sup>.
+                    </p>
+
+                    <div class="article-image-box">
+                        <img src="../assets/images/b2b_localization_security.png" alt="Secure Tool Execution Sandbox Topology">
+                        <div class="article-image-caption">Figure 2: Secure environment interaction stack including NemoClaw and Kagent monitoring layers.</div>
+                    </div>
+
+                    <p>
+                        Under this governance architecture, tools like NemoClaw and Kagent secure the interaction between the user, the agent, and the execution environment<sup><a href="#ref-37">37</a></sup>. NemoClaw provides a secure client interface built on top of OpenClaw, ensuring that users can only access sandboxes they are explicitly authorized to use<sup><a href="#ref-37">37</a></sup>. Kagent integrates with this layer to provide end-to-end observability, tracing, and policy evaluation, logging every generated command and code block to detect malicious activity before execution<sup><a href="#ref-27">27</a></sup>. This complete security stack allows enterprises to deploy autonomous workflows with robust, audit-ready controls<sup><a href="#ref-13">13</a></sup>.
+                    </p>
+                </section>
+
+                <!-- SECTION 6 -->
+                <section>
+                    <h2>Local AI Hardware Configuration and Compute Topology</h2>
+                    <p>
+                        Running large language models locally requires managing hardware constraints, where GPU memory capacity (VRAM) and memory bandwidth dictate system performance<sup><a href="#ref-15">15</a></sup>. The total memory required to run an LLM is calculated using the following formula<sup><a href="#ref-39">39</a></sup>:
+                    </p>
+
+                    <div class="math-display">
+                        \[M_{\text{total}} = M_{\text{weights}} + M_{\text{KV\_cache}} + M_{\text{overhead}}\]
+                    </div>
+
+                    <p>
+                        The memory required to load model weights is directly determined by its parameter count and precision format<sup><a href="#ref-39">39</a></sup>. For example, a model with \(P\) billion parameters stored in \(b\)-bit precision requires<sup><a href="#ref-39">39</a></sup>:
+                    </p>
+
+                    <div class="math-display">
+                        \[M_{\text{weights}} \approx P \times \left(\frac{b}{8}\right) \times 1.15\text{ GB}\]
+                    </div>
+
+                    <p>
+                        where the 1.15 multiplier accounts for weight loading overhead and framework variables<sup><a href="#ref-39">39</a></sup>.
+                    </p>
+                    <p>
+                        The key-value cache stores historical attention states during inference and scales with context length and batch size<sup><a href="#ref-39">39</a></sup>. For standard transformer architectures, the cache size is estimated as<sup><a href="#ref-39">39</a></sup>:
+                    </p>
+
+                    <div class="math-display">
+                        \[M_{\text{KV\_cache}} \approx 2 \times n_{\text{layers}} \times n_{\text{heads}} \times d_{\text{head}} \times L_{\text{ctx}} \times N_{\text{batch}} \times \left(\frac{b}{8}\right)\text{ bytes}\]
+                    </div>
+
+                    <p>
+                        where \(n_{\text{layers}}\) is the number of transformer layers, \(n_{\text{heads}}\) is the number of attention heads, \(d_{\text{head}}\) is the head dimension, \(L_{\text{ctx}}\) is the context sequence length, and \(N_{\text{batch}}\) is the number of concurrent requests<sup><a href="#ref-39">39</a></sup>. On top of these variables, system overhead including the CUDA runtime context and framework drivers typically reserves 0.5 to 2 GB of VRAM<sup><a href="#ref-39">39</a></sup>.
+                    </p>
+                    <p>
+                        The following table shows how context length increases VRAM requirements for a 70B model running in FP16 precision<sup><a href="#ref-39">39</a></sup>:
+                    </p>
+
+                    <div class="table-wrapper">
+                        <table class="article-table">
+                            <thead>
+                                <tr>
+                                    <th>Context Length (Tokens)</th>
+                                    <th>Key-Value Cache Size</th>
+                                    <th>Combined Memory Requirement (Weights + Cache)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>2,048</strong></td>
+                                    <td>~0.6 GB<sup><a href="#ref-39">39</a></sup></td>
+                                    <td>~141 GB<sup><a href="#ref-39">39</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>8,192</strong></td>
+                                    <td>~2.5 GB<sup><a href="#ref-39">39</a></sup></td>
+                                    <td>~143 GB<sup><a href="#ref-39">39</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>32,768</strong></td>
+                                    <td>~10.0 GB<sup><a href="#ref-39">39</a></sup></td>
+                                    <td>~150 GB<sup><a href="#ref-39">39</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>65,536</strong></td>
+                                    <td>~20.0 GB<sup><a href="#ref-39">39</a></sup></td>
+                                    <td>~160 GB<sup><a href="#ref-39">39</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>128,000</strong></td>
+                                    <td>~40.0 GB<sup><a href="#ref-39">39</a></sup></td>
+                                    <td>~180 GB<sup><a href="#ref-39">39</a></sup></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>
+                        When designing local deployment strategies, architects must select hardware that provides sufficient memory capacity and bandwidth<sup><a href="#ref-15">15</a></sup>. The best option would be to use <strong>Unified Memory Workstations</strong>, which share a single pool of high-speed memory<sup><a href="#ref-15">15</a></sup>. This allows large models to run entirely in RAM without the performance drop caused by offloading layers over PCIe lanes<sup><a href="#ref-15">15</a></sup>.
+                    </p>
+                    <p>
+                        The second option is to use <strong>Discrete GPUs</strong><sup><a href="#ref-15">15</a></sup>. While discrete GPUs offer significantly higher compute and tensor performance, they are constrained by onboard VRAM limits, often requiring multiple linked cards or heavy model quantization to fit large models<sup><a href="#ref-16">16</a></sup>.
+                    </p>
+
+
+
+                    <p>
+                        The following tables compare the leading hardware architectures and discrete GPUs used for local model serving<sup><a href="#ref-15">15</a></sup>:
+                    </p>
+
+                    <h3>Some of the Unified Memory Workstations & Systems</h3>
+                    <div class="table-wrapper">
+                        <table class="article-table">
+                            <thead>
+                                <tr>
+                                    <th>Unified System</th>
+                                    <th>Memory Capacity</th>
+                                    <th>Bus Bandwidth</th>
+                                    <th>Llama 70B Generation Speed</th>
+                                    <th>8B Model Generation Speed</th>
+                                    <th>Entry Price Tier</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Mac Studio M3 Ultra</strong></td>
+                                    <td>192 GB Unified LPDDR5<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>819 GB/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td><strong>25–30 tok/s</strong> (via MLX)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>~80 tok/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>From $3,999 (96GB Base)<sup><a href="#ref-15">15</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Mac Studio M4 Max</strong></td>
+                                    <td>128 GB Unified LPDDR5<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>546 GB/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td><strong>20–28 tok/s</strong> (via MLX)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>~60 tok/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>From $3,200<sup><a href="#ref-15">15</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>AMD Ryzen AI Max+ 395</strong> <em>(Strix Halo)</em></td>
+                                    <td>Up to 128 GB Unified LPDDR5X<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>~256 GB/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td><strong>12–15 tok/s</strong> (at Q4_K_M)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>~50–60 tok/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>From ~$1,999 (Full System)<sup><a href="#ref-15">15</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NVIDIA DGX Spark</strong></td>
+                                    <td>128 GB Unified LPDDR5X<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>273 GB/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td><strong>2.7 tok/s</strong> (at FP8)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td><strong>~924 tok/s</strong> (via FP4 NIM)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>$4,699<sup><a href="#ref-15">15</a></sup></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Some of the Discrete Consumer & Enterprise GPUs</h3>
+                    <div class="table-wrapper">
+                        <table class="article-table">
+                            <thead>
+                                <tr>
+                                    <th>GPU Variant</th>
+                                    <th>Onboard VRAM</th>
+                                    <th>Memory Bandwidth</th>
+                                    <th>Ideal Model Size Class</th>
+                                    <th>Estimated Generation Speed</th>
+                                    <th>Standard Cost Tier</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>NVIDIA RTX 5060 Ti</strong></td>
+                                    <td>16 GB GDDR6<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>~360 GB/s<sup><a href="#ref-16">16</a></sup></td>
+                                    <td>7B to 13B Models (at Q8)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>50–70 tok/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>~$500 (New)<sup><a href="#ref-15">15</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NVIDIA RTX 5070</strong></td>
+                                    <td>12 GB GDDR7<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>~500 GB/s<sup><a href="#ref-16">16</a></sup></td>
+                                    <td>8B to 14B Models (at Q4)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>85–110 tok/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>~$600 (New)<sup><a href="#ref-15">15</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NVIDIA RTX 4090</strong></td>
+                                    <td>24 GB GDDR6X<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>1,008 GB/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>32B Models (at Q4)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>120–150 tok/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>$2,400–$3,500<sup><a href="#ref-15">15</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NVIDIA RTX 5090</strong></td>
+                                    <td>32 GB GDDR7<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>1,792 GB/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>34B Models (at Q8)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>300–500 tok/s<sup><a href="#ref-4">4</a></sup></td>
+                                    <td>$3,000–$5,000<sup><a href="#ref-15">15</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>RTX PRO 6000 Blackwell</strong></td>
+                                    <td>96 GB GDDR7 ECC<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>~1,500 GB/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>70B Models (at Q8)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>~40–50 tok/s<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>~$8,500<sup><a href="#ref-15">15</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NVIDIA H100 SXM</strong></td>
+                                    <td>80 GB HBM3<sup><a href="#ref-14">14</a></sup></td>
+                                    <td>3,350 GB/s<sup><a href="#ref-14">14</a></sup></td>
+                                    <td>70B Models (at FP8)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>~25 tok/s (Single stream)<sup><a href="#ref-15">15</a></sup></td>
+                                    <td>$35,000+<sup><a href="#ref-15">15</a></sup></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SECTION 7 -->
+                <section>
+                    <h2>Production Orchestration, Deployment, and Observability</h2>
+                    <p>
+                        To transition local model inference from single-developer workstations to multi-tenant corporate services, organizations deploy models on high-performance inference engines like vLLM<sup><a href="#ref-9">9</a></sup>. Standard model loading libraries struggle under multi-user traffic because they use static batching, which leaves processing cores idle during sequence generation<sup><a href="#ref-40">40</a></sup>.
+                    </p>
+                    <p>
+                        In contrast, vLLM introduces several performance optimization techniques<sup><a href="#ref-40">40</a></sup>:
+                    </p>
+                    <ul>
+                        <li><strong>PagedAttention:</strong> Inspired by virtual memory page allocation in operating systems, PagedAttention divides the key-value (KV) cache into non-contiguous memory blocks<sup><a href="#ref-40">40</a></sup>. This dynamically allocates memory pages only when needed, eliminating fragmentation and maximizing concurrent requests<sup><a href="#ref-40">40</a></sup>.</li>
+                        <li><strong>Continuous Batching:</strong> Rather than waiting for an entire batch to finish processing, vLLM's scheduler dynamically adds new requests to the processing queue as older sequences complete, minimizing idle time and increasing throughput<sup><a href="#ref-40">40</a></sup>.</li>
+                        <li><strong>Speculative Decoding:</strong> A smaller, faster draft model predicts future tokens, which the larger target model then verifies in a single step, reducing generation latency without sacrificing accuracy<sup><a href="#ref-40">40</a></sup>.</li>
+                    </ul>
+                    <p>
+                        For containerized orchestration, Kubernetes serves as a reliable framework<sup><a href="#ref-9">9</a></sup>. Kubernetes automatically manages system nodes, restarts failed services, and scales container instances based on incoming traffic<sup><a href="#ref-45">45</a></sup>. When deploying local inference servers on Kubernetes, organizations configure three key components<sup><a href="#ref-9">9</a></sup>:
+                    </p>
+                    <ul>
+                        <li><strong>Persistent Volume Claims (PVC):</strong> Replicated storage clusters (such as LINSTOR or AWS FSx for Lustre) cache model weights locally<sup><a href="#ref-9">9</a></sup>. This ensures that pods do not need to re-download massive weight files from HuggingFace during scaling operations<sup><a href="#ref-9">9</a></sup>.</li>
+                        <li><strong>NVIDIA GPU Operator & Node Feature Discovery (NFD):</strong> These operators automate the configuration of drivers and libraries inside GPU instances, enabling smart pod scheduling based on actual hardware features<sup><a href="#ref-40">40</a></sup>.</li>
+                        <li><strong>Optimized Health Probes:</strong> Due to the massive size of model files, containers can take several minutes to load weights and initialize<sup><a href="#ref-9">9</a></sup>. Increasing initialDelaySeconds on Kubernetes liveness and readiness probes to 300 seconds or more prevents the cluster from prematurely restarting initialization containers<sup><a href="#ref-43">43</a></sup>.</li>
+                    </ul>
+                    <p>
+                        Once deployed, teams monitor system health and latency using Prometheus metrics and Grafana alerts<sup><a href="#ref-43">43</a></sup>:
+                    </p>
+
+                    <div class="table-wrapper">
+                        <table class="article-table">
+                            <thead>
+                                <tr>
+                                    <th>Prometheus Metric Name</th>
+                                    <th>Measurement Focus</th>
+                                    <th>High-Impact Alerting Threshold</th>
+                                    <th>Operational Remediation Path</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>vllm:gpu_cache_usage_perc</strong></td>
+                                    <td>KV cache memory utilization<sup><a href="#ref-43">43</a></sup>.</td>
+                                    <td>&gt; 0.95 for over 10 minutes<sup><a href="#ref-43">43</a></sup>.</td>
+                                    <td>High risk of queue queuing. Scale out replica counts or reduce max model sequence lengths<sup><a href="#ref-43">43</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>vllm:num_requests_waiting</strong></td>
+                                    <td>Requests waiting in the queue<sup><a href="#ref-43">43</a></sup>.</td>
+                                    <td>&gt; 100 concurrent requests<sup><a href="#ref-43">43</a></sup>.</td>
+                                    <td>Scalability bottleneck. Scale out GPU nodes or apply model quantization to increase throughput<sup><a href="#ref-43">43</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>vllm:e2e_request_latency_seconds</strong></td>
+                                    <td>Total request latency<sup><a href="#ref-43">43</a></sup>.</td>
+                                    <td>99th percentile &gt; 30s for 5 minutes<sup><a href="#ref-43">43</a></sup>.</td>
+                                    <td>Hardware saturation. Route excess traffic to backup cloud models or apply strict rate limits<sup><a href="#ref-2">2</a></sup>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>vllm:num_requests_swapped</strong></td>
+                                    <td>Requests swapped to host CPU<sup><a href="#ref-43">43</a></sup>.</td>
+                                    <td>&gt; 0 swapped requests<sup><a href="#ref-43">43</a></sup>.</td>
+                                    <td>Severe memory bottleneck. Reduce GPU memory allocation flags or switch to a smaller model version<sup><a href="#ref-9">9</a></sup>.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- REFERENCES SECTION -->
+                <section class="references-section">
+                    <h2>References</h2>
+                    <ol class="references-list">
+                        <li id="ref-1"><span class="ref-num">1.</span> The Rise of Agentic AI, and a Shift to Edge Solutions | ASUS, <a href="https://www.asus.com/business/blog/agentic-ai-for-business/" target="_blank" rel="noopener noreferrer">https://www.asus.com/business/blog/agentic-ai-for-business/</a></li>
+                        <li id="ref-2"><span class="ref-num">2.</span> Local + Cloud LLMs: A Hybrid Architecture Playbook | Xenturia Blog, <a href="https://www.xenturia.co/en/blog/local-cloud-llms-a-hybrid-architecture-playbook-2026" target="_blank" rel="noopener noreferrer">https://www.xenturia.co/en/blog/local-cloud-llms-a-hybrid-architecture-playbook-2026</a></li>
+                        <li id="ref-3"><span class="ref-num">3.</span> Best Local LLM Runners for Agents (2025 Benchmarks) | Fastio, <a href="https://fast.io/resources/best-local-llm-runners-agents/" target="_blank" rel="noopener noreferrer">https://fast.io/resources/best-local-llm-runners-agents/</a></li>
+                        <li id="ref-4"><span class="ref-num">4.</span> Local LLM Agents: Why You Should Own Your AI Stack | by Jesper Jensen | Medium, <a href="https://medium.com/@jesper.jensen_60815/local-llm-agents-why-you-should-own-your-ai-stack-9c6ece8bfc47" target="_blank" rel="noopener noreferrer">https://medium.com/@jesper.jensen_60815/local-llm-agents-why-you-should-own-your-ai-stack-9c6ece8bfc47</a></li>
+                        <li id="ref-5"><span class="ref-num">5.</span> Implementing large language models in healthcare while balancing control, collaboration, costs and security - PMC, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11885444/" target="_blank" rel="noopener noreferrer">https://pmc.ncbi.nlm.nih.gov/articles/PMC11885444/</a></li>
+                        <li id="ref-6"><span class="ref-num">6.</span> 25+ LLM Use Cases And Applications Across Industries in 2026 - instinctools, <a href="https://www.instinctools.com/blog/llm-use-cases/" target="_blank" rel="noopener noreferrer">https://www.instinctools.com/blog/llm-use-cases/</a></li>
+                        <li id="ref-7"><span class="ref-num">7.</span> Run Local LLMs: The Enterprise Guide to Private AI, <a href="https://www.anavcloudsanalytics.ai/blog/run-local-llms/" target="_blank" rel="noopener noreferrer">https://www.anavcloudsanalytics.ai/blog/run-local-llms/</a></li>
+                        <li id="ref-8"><span class="ref-num">8.</span> Top LLM Use Cases Across Industries in 2026 - Softweb Solutions, <a href="https://www.softwebsolutions.com/resources/llm-use-cases/" target="_blank" rel="noopener noreferrer">https://www.softwebsolutions.com/resources/llm-use-cases/</a></li>
+                        <li id="ref-9"><span class="ref-num">9.</span> Running a Local LLM in Kubernetes with vLLM & LINSTOR - LINBIT, <a href="https://linbit.com/blog/running-a-local-llm-in-kubernetes-with-vllm-linstor/" target="_blank" rel="noopener noreferrer">https://linbit.com/blog/running-a-local-llm-in-kubernetes-with-vllm-linstor/</a></li>
+                        <li id="ref-10"><span class="ref-num">10.</span> LLM Agent Architecture: Complete Guide (2026) - Coworker AI, <a href="https://coworker.ai/blog/llm-agent-architecture" target="_blank" rel="noopener noreferrer">https://coworker.ai/blog/llm-agent-architecture</a></li>
+                        <li id="ref-11"><span class="ref-num">11.</span> Model Context Protocol: Connecting LLMs and Enterprise Systems - ti&m AG, <a href="https://www.ti8m.com/en/blog/mcp-fuer-llm-unternehmenssysteme" target="_blank" rel="noopener noreferrer">https://www.ti8m.com/en/blog/mcp-fuer-llm-unternehmenssysteme</a></li>
+                        <li id="ref-12"><span class="ref-num">12.</span> The open source, multi-agent platform - CrewAI, <a href="https://crewai.com/open-source" target="_blank" rel="noopener noreferrer">https://crewai.com/open-source</a></li>
+                        <li id="ref-13"><span class="ref-num">13.</span> Best Multi-Agent Frameworks in 2026: LangGraph, CrewAI, OpenAI SDK and Google ADK, <a href="https://gurusup.com/blog/best-multi-agent-frameworks-2026" target="_blank" rel="noopener noreferrer">https://gurusup.com/blog/best-multi-agent-frameworks-2026</a></li>
+                        <li id="ref-14"><span class="ref-num">14.</span> How Deploy an LLM On-Premise (2026): GPU Sizing & vLLM - Iternal Technologies, <a href="https://iternal.ai/how-to-deploy-llm-on-premise" target="_blank" rel="noopener noreferrer">https://iternal.ai/how-to-deploy-llm-on-premise</a></li>
+                        <li id="ref-15"><span class="ref-num">15.</span> Hardware analysis for self hosting local llms, <a href="https://pinggy.io/blog/best_hardware_for_self_hosting_local_llms" target="_blank" rel="noopener noreferrer">https://pinggy.io/blog/best_hardware_for_self_hosting_local_llms</a></li>
+                        <li id="ref-16"><span class="ref-num">16.</span> Local LLM Hardware Requirements 2026: Best Models by VRAM - PromptQuorum, <a href="https://www.promptquorum.com/local-llms/local-llm-hardware-guide-2026" target="_blank" rel="noopener noreferrer">https://www.promptquorum.com/local-llms/local-llm-hardware-guide-2026</a></li>
+                        <li id="ref-17"><span class="ref-num">17.</span> Best AI Agent Frameworks 2026: 7 Compared (LangGraph, CrewAI, AutoGen, Semantic Kernel) - Alice Labs, <a href="https://alicelabs.ai/en/insights/best-ai-agent-frameworks-2026" target="_blank" rel="noopener noreferrer">https://alicelabs.ai/en/insights/best-ai-agent-frameworks-2026</a></li>
+                        <li id="ref-18"><span class="ref-num">18.</span> CrewAI vs LangGraph vs AutoGen vs OpenAgents — Best AI Agent Framework (2026), <a href="https://openagents.org/blog/posts/2026-02-23-open-source-ai-agent-frameworks-compared" target="_blank" rel="noopener noreferrer">https://openagents.org/blog/posts/2026-02-23-open-source-ai-agent-frameworks-compared</a></li>
+                        <li id="ref-19"><span class="ref-num">19.</span> The best AI agent frameworks in 2026 - LangChain, <a href="https://www.langchain.com/resources/ai-agent-frameworks" target="_blank" rel="noopener noreferrer">https://www.langchain.com/resources/ai-agent-frameworks</a></li>
+                        <li id="ref-20"><span class="ref-num">20.</span> What is Model Context Protocol (MCP)? A guide | Google Cloud, <a href="https://cloud.google.com/discover/what-is-model-context-protocol" target="_blank" rel="noopener noreferrer">https://cloud.google.com/discover/what-is-model-context-protocol</a></li>
+                        <li id="ref-21"><span class="ref-num">21.</span> What Is the Model Context Protocol (MCP) and How It Works - Descope, <a href="https://www.descope.com/learn/post/mcp" target="_blank" rel="noopener noreferrer">https://www.descope.com/learn/post/mcp</a></li>
+                        <li id="ref-22"><span class="ref-num">22.</span> What is the Model Context Protocol (MCP)? - Databricks, <a href="https://www.databricks.com/blog/what-is-model-context-protocol" target="_blank" rel="noopener noreferrer">https://www.databricks.com/blog/what-is-model-context-protocol</a></li>
+                        <li id="ref-23"><span class="ref-num">23.</span> Model Context Protocol (MCP) explained: A practical technical overview for developers and architects - CodiLime, <a href="https://codilime.com/blog/model-context-protocol-explained/" target="_blank" rel="noopener noreferrer">https://codilime.com/blog/model-context-protocol-explained/</a></li>
+                        <li id="ref-24"><span class="ref-num">24.</span> 10 MCP servers to connect LLMs with databases | InfoWorld, <a href="https://www.infoworld.com/article/4181843/10-mcp-servers-to-connect-llms-with-databases.html" target="_blank" rel="noopener noreferrer">https://www.infoworld.com/article/4181843/10-mcp-servers-to-connect-llms-with-databases.html</a></li>
+                        <li id="ref-25"><span class="ref-num">25.</span> Sandboxing LLM coding agents: part1 - VirtusLab, <a href="https://virtuslab.com/blog/ai/sandboxing-llm-coding-agents-part1" target="_blank" rel="noopener noreferrer">https://virtuslab.com/blog/ai/sandboxing-llm-coding-agents-part1</a></li>
+                        <li id="ref-26"><span class="ref-num">26.</span> Bringing Vision-Language Intelligence to RAG with ColPali | Towards Data Science, <a href="https://towardsdatascience.com/bringing-vision-language-intelligence-to-rag-with-colpali/" target="_blank" rel="noopener noreferrer">https://towardsdatascience.com/bringing-vision-language-intelligence-to-rag-with-colpali/</a></li>
+                        <li id="ref-27"><span class="ref-num">27.</span> Agent Sandbox & Programmatic Tool Calling - Glean Docs, <a href="https://docs.glean.com/administration/assistant/features/agentic-engine/agent-sandbox-ptc" target="_blank" rel="noopener noreferrer">https://docs.glean.com/administration/assistant/features/agentic-engine/agent-sandbox-ptc</a></li>
+                        <li id="ref-28"><span class="ref-num">28.</span> Multimodal RAG in 2026: Retrieval Over Images, PDFs, and Text - BigData Boutique, <a href="https://bigdataboutique.com/blog/multimodal-rag-retrieval-over-images-pdfs-and-text" target="_blank" rel="noopener noreferrer">https://bigdataboutique.com/blog/multimodal-rag-retrieval-over-images-pdfs-and-text</a></li>
+                        <li id="ref-29"><span class="ref-num">29.</span> Integrating Vision-Language Models into Agentic RAG Systems with ColPali, <a href="https://dev.to/aws/beyond-text-building-intelligent-document-agents-with-vision-language-models-and-colpali" target="_blank" rel="noopener noreferrer">https://dev.to/aws/beyond-text-building-intelligent-document-agents-with-vision-language-models-and-colpali</a></li>
+                        <li id="ref-30"><span class="ref-num">30.</span> Multimodal RAG: Retrieving from Images, PDFs, and Tables - Tensoria, <a href="https://tensoria.fr/en/blog/multimodal-rag-images-pdfs-tables" target="_blank" rel="noopener noreferrer">https://tensoria.fr/en/blog/multimodal-rag-images-pdfs-tables</a></li>
+                        <li id="ref-31"><span class="ref-num">31.</span> dame-cell/VisionRAG: A new novel multi-modality (Vision) RAG architecture - GitHub, <a href="https://github.com/dame-cell/VisionRAG" target="_blank" rel="noopener noreferrer">https://github.com/dame-cell/VisionRAG</a></li>
+                        <li id="ref-32"><span class="ref-num">32.</span> Multivectors for Late Interaction Models - Qdrant, <a href="https://qdrant.tech/course/essentials/day-5/colbert-multivectors/" target="_blank" rel="noopener noreferrer">https://qdrant.tech/course/essentials/day-5/colbert-multivectors/</a></li>
+                        <li id="ref-33"><span class="ref-num">33.</span> Late Interaction Basics - Qdrant, <a href="https://qdrant.tech/course/multi-vector-search/module-1/late-interaction-basics/" target="_blank" rel="noopener noreferrer">https://qdrant.tech/course/multi-vector-search/module-1/late-interaction-basics/</a></li>
+                        <li id="ref-34"><span class="ref-num">34.</span> Multivectors and Late Interaction - Qdrant, <a href="https://qdrant.tech/documentation/tutorials/search-engineering/using-multivector-representations/" target="_blank" rel="noopener noreferrer">https://qdrant.tech/documentation/tutorials/search-engineering/using-multivector-representations/</a></li>
+                        <li id="ref-35"><span class="ref-num">35.</span> Practical Security Guidance for Sandboxing Agentic Workflows and Managing Execution Risk | NVIDIA Technical Blog, <a href="https://developer.nvidia.com/blog/practical-security-guidance-for-sandboxing-agentic-workflows-and-managing-execution-risk/" target="_blank" rel="noopener noreferrer">https://developer.nvidia.com/blog/practical-security-guidance-for-sandboxing-agentic-workflows-and-managing-execution-risk/</a></li>
+                        <li id="ref-36"><span class="ref-num">36.</span> Beyond AI Agent Tools with LLM Sandbox | by Cobus Greyling - Medium, <a href="https://cobusgreyling.medium.com/beyond-ai-agent-tools-with-llm-sandbox-2bd9b4cf148a" target="_blank" rel="noopener noreferrer">https://cobusgreyling.medium.com/beyond-ai-agent-tools-with-llm-sandbox-2bd9b4cf148a</a></li>
+                        <li id="ref-37"><span class="ref-num">37.</span> NemoClaw + Kagent + Sandbox: The Secure, Production Grade Implementation, <a href="https://kagent.dev/blog/nemoclaw-kagent-sandbox-secure-production-imp" target="_blank" rel="noopener noreferrer">https://kagent.dev/blog/nemoclaw-kagent-sandbox-secure-production-imp</a></li>
+                        <li id="ref-38"><span class="ref-num">38.</span> Local AI Hardware Requirements (2026): Complete Guide, <a href="https://localaimaster.com/blog/ai-hardware-requirements-2025-complete-guide" target="_blank" rel="noopener noreferrer">https://localaimaster.com/blog/ai-hardware-requirements-2025-complete-guide</a></li>
+                        <li id="ref-39"><span class="ref-num">39.</span> GPU Memory Requirements for LLMs: How Much VRAM You Need (2026) | Spheron Blog, <a href="https://www.spheron.network/blog/gpu-memory-requirements-llm/" target="_blank" rel="noopener noreferrer">https://www.spheron.network/blog/gpu-memory-requirements-llm/</a></li>
+                        <li id="ref-40"><span class="ref-num">40.</span> Self-Hosting LLMs on Kubernetes: Serving LLMs using vLLM - Seif Bassem, <a href="https://blog.seifbassem.com/blogs/posts/hosting-llms-k8s-vllm/" target="_blank" rel="noopener noreferrer">https://blog.seifbassem.com/blogs/posts/hosting-llms-k8s-vllm/</a></li>
+                        <li id="ref-41"><span class="ref-num">41.</span> Picking the Right Hardware to Run LLMs Locally in 2026 - Pinggy, <a href="https://pinggy.io/blog/best_hardware_for_self_hosting_local_llms/" target="_blank" rel="noopener noreferrer">https://pinggy.io/blog/best_hardware_for_self_hosting_local_llms/</a></li>
+                        <li id="ref-42"><span class="ref-num">42.</span> Best GPU Hardware for AI Inference: Full Comparison - GMI Cloud, <a href="https://www.gmicloud.ai/en/blog/best-gpu-hardware-for-ai-inference-full-comparison" target="_blank" rel="noopener noreferrer">https://www.gmicloud.ai/en/blog/best-gpu-hardware-for-ai-inference-full-comparison</a></li>
+                        <li id="ref-43"><span class="ref-num">43.</span> vLLM Docker Deployment: Production-Ready Setup Guide (2026) | Inference.net, <a href="https://inference.net/content/vllm-docker-deployment/" target="_blank" rel="noopener noreferrer">https://inference.net/content/vllm-docker-deployment/</a></li>
+                        <li id="ref-44"><span class="ref-num">44.</span> Deploying with Kubernetes - vLLM Documentation, <a href="https://docs.vllm.ai/en/v0.6.6/serving/deploying_with_k8s.html" target="_blank" rel="noopener noreferrer">https://docs.vllm.ai/en/v0.6.6/serving/deploying_with_k8s.html</a></li>
+                        <li id="ref-45"><span class="ref-num">45.</span> Deploy LLMs on Kubernetes: Complete Guide with Examples | by Amaresh Pelleti | Medium, <a href="https://medium.com/@amareswer/deploy-llms-on-kubernetes-complete-guide-with-examples-4fbd04d38d40" target="_blank" rel="noopener noreferrer">https://medium.com/@amareswer/deploy-llms-on-kubernetes-complete-guide-with-examples-4fbd04d38d40</a></li>
+                        <li id="ref-46"><span class="ref-num">46.</span> Deploy LLMs on Amazon EKS using vLLM Deep Learning Containers - AWS, <a href="https://aws.amazon.com/blogs/architecture/deploy-llms-on-amazon-eks-using-vllm-deep-learning-containers/" target="_blank" rel="noopener noreferrer">https://aws.amazon.com/blogs/architecture/deploy-llms-on-amazon-eks-using-vllm-deep-learning-containers/</a></li>
+                    </ol>
+                </section>
+
+            </div>
+        </article>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="https://github.com/Musteva" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="mailto:mustafadoganfucucu@gmail.com">Email</a>
+            </div>
+            <p>&copy; 2026 Mustafa DOĞAN. All rights reserved.</p>
+            <p id="visit-count" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Page visits: Loading...</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
