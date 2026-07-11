@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive 3D Architectural Virtualization | Mustafa DOĞAN</title>
+    <meta name="description" content="Technical paper by Mustafa DOĞAN on re-engineering software documentation through dynamic 3D space rendering, WebGL, and force-directed graph coordinate projection.">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- MathJax for rendering LaTeX formulas -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">MUSTAFA DOĞAN</a>
+            <button class="menu-btn" aria-label="Toggle Menu">&#9776;</button>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li><a href="../articles.html" class="active">Articles</a></li>
+                <li><a href="../ventures.html">Ventures</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container">
+
+        <!-- Back link -->
+        <a href="../articles.html" class="back-link">&larr; Back to Articles</a>
+
+        <article>
+            <!-- Article Header -->
+            <div class="article-header">
+                <h1 class="article-title">Interactive 3D Architectural Virtualization: Re-Engineering Software Documentation and System Diagnostics through Dynamic Space Rendering</h1>
+                <div class="article-meta">
+                    <span class="article-author">Mustafa DOĞAN</span>
+                    <span class="article-institution">Turkish-German University</span>
+                    <span>July 2026</span>
+                </div>
+            </div>
+
+            <!-- Article Body Content -->
+            <div class="article-content">
+
+                <section>
+                    <h2>The Dimensional Crisis in Technical Documentation</h2>
+                    <p>
+                        The rapid evolution of distributed systems, microservices, and service-oriented network architectures has outpaced the capabilities of traditional technical documentation<sup><a href="#ref-1">1</a></sup>. For decades, engineering teams have relied on flat, vector-based illustrations or static raster images—such as Portable Network Graphics (PNG) and Scalable Vector Graphics (SVG)—to conceptualize system structures<sup><a href="#ref-3">3</a></sup>. While these visual models serve as simple introductions, they introduce a systemic disconnect known as diagram drift<sup><a href="#ref-6">6</a></sup>. Because traditional diagrams are detached from live source repositories, they require manual, human-driven updates every time an API contract, system path, or configuration file is modified<sup><a href="#ref-4">4</a></sup>. Consequently, design artifacts quickly diverge from actual system implementations, leading to outdated documentation that hinders system analysis, troubleshooting, and developer onboarding<sup><a href="#ref-7">7</a></sup>.
+                    </p>
+                    <p>
+                        Beyond the maintenance challenges, flat visual mediums impose severe limits on the density of information that can be presented<sup><a href="#ref-1">1</a></sup>. Modern software architectures require deep visibility into system interfaces, including complex JSON and YAML templates, data schemas, and sequential transaction paths<sup><a href="#ref-4">4</a></sup>. Compressing this multidimensional operational data into two dimensions forces visual compromises<sup><a href="#ref-1">1</a></sup>.
+                    </p>
+                    <p>
+                        To show the exact structure of data flowing in and out of a single service node, developers must often create multiple text boxes, compressing extensive schema definitions into cramped, unreadable single-line annotations<sup><a href="#ref-7">7</a></sup>. This visual clutter quickly overwhelms standard layouts, rendering complex technical diagrams unreadable<sup><a href="#ref-1">1</a></sup>. As a result, engineering teams must constantly shift context, toggling between high-level structural diagrams and code-level source configurations to verify simple API specifications<sup><a href="#ref-13">13</a></sup>.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Origin and Concept</h2>
+                    <p>
+                        The core concept of replacing static documentation with a dynamic, interactive 3D web platform originally came from my supervisor, Murat Kağan Temel (hantheemp)<sup><a href="#ref-15">15</a>, <a href="#ref-26">26</a></sup>. We were casually talking one day about the massive headache of diagram drift and how frustratingly limited flat, traditional images really are<sup><a href="#ref-7">7</a>, <a href="#ref-8">8</a></sup>. During our conversation, Murat casually proposed a brilliant, straightforward solution: why not ditch static drawing tools entirely and render our architectures dynamically in a 3D browser viewport using WebGL and something like Three.js<sup><a href="#ref-13">13</a>, <a href="#ref-15">15</a></sup>.
+                    </p>
+                    <p>
+                        His idea was simple but game-changing: instead of maintaining a separate design layout that we have to manually update every single time a config changes, we can feed active system files like JSON, YAML, or OpenAPI specifications directly into a WebGL rendering engine<sup><a href="#ref-4">4</a>, <a href="#ref-11">11</a>, <a href="#ref-15">15</a></sup>. The 3D scene would serve as a "living" representation, adapting and updating itself automatically in real-time as the codebase evolves, completely eliminating diagram drift<sup><a href="#ref-7">7</a>, <a href="#ref-8">8</a></sup>.
+                    </p>
+                    <p>
+                        I was instantly hooked by this idea and wanted to expand on it. While Murat casually laid out the core logic of using dynamic site files as our source of truth, we realized how much potential this has if we push it further<sup><a href="#ref-15">15</a></sup>. This article is my effort to take his brilliant spark and build it out into a full vision exploring how mapping configurations into a 3D coordinate space can let developers expand nested sub-graphs, trace active execution flows node-by-node, and debug active data transitions in a continuous, interactive workspace<sup><a href="#ref-1">1</a>, <a href="#ref-12">12</a>, <a href="#ref-19">19</a></sup>.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Solving the Interface Clutter: Collapsible Node Schema Inspectors</h2>
+                    <p>
+                        The core visual limitation of traditional diagrams is the physical space required to display system interface parameters<sup><a href="#ref-1">1</a></sup>. In a microservices architecture, showing what comes in and what goes out of a single node—such as a database, an API gateway, or an authentication service—typically requires drawing separate text frames<sup><a href="#ref-5">5</a></sup>. For instance, showing a simple REST request/response pair requires developers to construct multiple text callouts on the diagram canvas, forcing them to squeeze multi-line schema properties into cramped boxes of around 100 characters<sup><a href="#ref-7">7</a></sup>. This constraint quickly clutters the visual field, making it difficult to follow relationships across larger systems<sup><a href="#ref-1">1</a></sup>.
+                    </p>
+                    <p>
+                        Dynamic 3D virtualization resolves this visual crowding by leveraging spatial depth and interactive UI elements<sup><a href="#ref-1">1</a></sup>. Rather than placing static text descriptions on the canvas, the three-dimensional viewport displays each node as a clean, spatial geometry<sup><a href="#ref-20">20</a></sup>. High-density technical data is packaged into collapsible, interactive visual overlays<sup><a href="#ref-14">14</a></sup>.
+                    </p>
+                    <p>
+                        When a developer clicks a specific architectural node, the interface triggers a smooth camera interpolation and renders an interactive, expandable schema card. This card can host a complete JSON template, an OpenAPI definition, or database schemas directly adjacent to the node.
+                    </p>
+
+                    <div class="article-image-box">
+                        <img src="../assets/images/Collapsible_Node_Schema.png" alt="Collapsible Node Schema Inspector">
+                        <div class="article-image-caption">Figure 1: Camera interpolation and interactive JSON schema card projection on node selection.</div>
+                    </div>
+
+                    <p>
+                        By utilizing high-performance web components like Monaco Editor or reactive JSON tree-viewers, developers can expand, collapse, and interact with complete nested data structures directly in the 3D scene<sup><a href="#ref-14">14</a></sup>. This direct, on-demand visibility displays incoming and outgoing data structures clearly without adding visual clutter to the high-level system view<sup><a href="#ref-1">1</a></sup>.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Sequential Traversals: Node-by-Node Flow Tracing</h2>
+                    <p>
+                        In flat 2D representations, tracing the sequential path of an execution flow—such as a user authentication request or a distributed transaction—requires tracing static, numbered connector lines or referencing separate sequence diagrams<sup><a href="#ref-6">6</a></sup>. As systems grow in complexity, these static indicators overlap, making it difficult to isolate individual execution paths<sup><a href="#ref-1">1</a></sup>.
+                    </p>
+                    <p>
+                        The dynamic 3D architecture solves this issue by supporting sequential, node-by-node flow tracing directly within the physical layout of the network<sup><a href="#ref-19">19</a></sup>. Using dynamic site files as the underlying model, the system can dynamically construct and highlight execution pathways across the active topology<sup><a href="#ref-15">15</a></sup>.
+                    </p>
+                    <p>
+                        During diagnostic reviews, engineers can activate a step-by-step traversal mode<sup><a href="#ref-20">20</a></sup>. The visualization engine isolates the active execution trace, temporarily dimming unrelated nodes and links to around 15% opacity to minimize visual noise<sup><a href="#ref-20">20</a></sup>.
+                    </p>
+                    <p>
+                        As the developer navigates through the sequence, the camera smoothly interpolates (lerps) from node to node, highlighting each hop along the path<sup><a href="#ref-20">20</a></sup>. Dynamic visual indicators, such as animated particle streams or pulsating emissive beams, travel along the active links to indicate data flow speed, volume, or system latency<sup><a href="#ref-19">19</a></sup>.
+                    </p>
+                    <p>
+                        At each node, the collapsible code panel automatically reveals the corresponding data transform, showing exactly how the inputs are processed and outputted before being routed to the next destination<sup><a href="#ref-14">14</a></sup>. This tracing capability allows development teams to visualize exactly how data cascades through the system, dramatically speeding up root-cause analysis during system failures<sup><a href="#ref-6">6</a></sup>.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Polymorphic Graph Branching within Single Spatial Renders</h2>
+                    <p>
+                        Large software infrastructures frequently deploy polymorphic variations of a core architecture across different execution environments<sup><a href="#ref-4">4</a></sup>. For example, a production deployment, a localized testing sandbox, and a multi-region fallback setup might all share the same primary data backbone but employ different sub-systems, caching layers, or external integrations<sup><a href="#ref-29">29</a></sup>. Traditional documentation requires maintaining separate diagrams for each variation, which increases manual updates and makes it difficult to track differences across environments<sup><a href="#ref-3">3</a></sup>.
+                    </p>
+                    <p>
+                        A dynamic 3D workspace handles this structural variation by rendering multiple polymorphic architectures within a single, integrated spatial scene<sup><a href="#ref-20">20</a></sup>. Because the visualization is powered by dynamic data structures rather than static drawings, the system can parse and display sub-architectures nested within their local coordinate systems<sup><a href="#ref-15">15</a></sup>.
+                    </p>
+                    <p>
+                        The primary coordinate space maps the shared core flow, which remains static. Specialized branches and localized sub-graphs are loaded as nested spatial layers that can be toggled on demand.
+                    </p>
+
+                    <div class="article-image-box">
+                        <img src="../assets/images/Polymorphic_Graph_Branching.png" alt="Polymorphic Graph Branching">
+                        <div class="article-image-caption">Figure 2: Rendering and comparison of environmental sub-systems within a unified coordinate model.</div>
+                    </div>
+
+                    <p>
+                        By adjusting active filters or environmental configurations, developers can trigger smooth transitions where specific regional branches, secondary container pools, or local mock services materialize and align with the primary system nodes<sup><a href="#ref-13">13</a></sup>. This capability allows teams to visually inspect and compare multiple environmental variations side-by-side within a single, coherent 3D view, ensuring that design modifications remain consistent across all deployment environments<sup><a href="#ref-20">20</a></sup>.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Comparative Architectural Metamodels</h2>
+                    <div class="table-wrapper">
+                        <table class="article-table">
+                            <thead>
+                                <tr>
+                                    <th>Documentation Metric</th>
+                                    <th>Static 2D Canvas Models (e.g., Visio, Lucidchart)</th>
+                                    <th>Static Diagrams-as-Code (e.g., Mermaid, PlantUML)</th>
+                                    <th>Live 3D Spatial Environments (WebGL / Three.js)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Primary Ingestion Source</strong></td>
+                                    <td>Manual user inputs via graphical shape builders<sup><a href="#ref-3">3</a></sup></td>
+                                    <td>Declarative plain-text files stored in git<sup><a href="#ref-4">4</a></sup></td>
+                                    <td>Active environment metadata and configuration files<sup><a href="#ref-4">4</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Vulnerability to Diagram Drift</strong></td>
+                                    <td>High; requires manual visual updates<sup><a href="#ref-7">7</a></sup></td>
+                                    <td>Moderate; requires manual updates of text files<sup><a href="#ref-4">4</a></sup></td>
+                                    <td>Zero; updates dynamically based on system source data<sup><a href="#ref-8">8</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>API Parameter Detail</strong></td>
+                                    <td>Squeezed into cramped visual annotations<sup><a href="#ref-7">7</a></sup></td>
+                                    <td>Limited; restricted to static label definitions<sup><a href="#ref-4">4</a></sup></td>
+                                    <td>Clickable, collapsible interactive inspectors<sup><a href="#ref-14">14</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Execution Flow Support</strong></td>
+                                    <td>Static, numbered lines with no context<sup><a href="#ref-6">6</a></sup></td>
+                                    <td>Static execution pathways and connectors<sup><a href="#ref-6">6</a></sup></td>
+                                    <td>Interactive step-by-step traversal animations<sup><a href="#ref-19">19</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Environmental Polymorphism</strong></td>
+                                    <td>Duplicate documents for each setup<sup><a href="#ref-3">3</a></sup></td>
+                                    <td>Separate text configurations and renders<sup><a href="#ref-29">29</a></sup></td>
+                                    <td>Integrated spatial layers in a single viewport<sup><a href="#ref-20">20</a></sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Client Rendering Engine</strong></td>
+                                    <td>Static vector shapes or image files<sup><a href="#ref-3">3</a></sup></td>
+                                    <td>Static 2D vector graphic renderers<sup><a href="#ref-4">4</a></sup></td>
+                                    <td>High-performance WebGL/WebGPU pipelines<sup><a href="#ref-1">1</a></sup></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Technical Engineering Blueprint</h2>
+                    <p>
+                        Building a production-ready 3D architectural visualization platform requires a robust pipeline that converts structural configuration files into an interactive, high-performance web interface. The following blueprint outlines the system components, coordinate systems, and rendering loops necessary to support the application.
+                    </p>
+
+                    <div class="article-image-box">
+                        <img src="../assets/images/System_Architecture_Blueprint.png" alt="System Architecture Blueprint">
+                        <div class="article-image-caption">Figure 3: System architecture engineering pipeline illustrating the config ingestion and sync rendering stages.</div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>3D Force-Directed Coordinate Projection</h2>
+                    <p>
+                        The system ingestion engine parses input site configuration files—such as dynamic environment variables, JSON graphs, or deployment manifests—into a structural node-link map<sup><a href="#ref-15">15</a></sup>. To layout this graph in 3D coordinate space without manual coordinate mapping, the engine runs a 3D force-directed simulation<sup><a href="#ref-28">28</a></sup>. The system utilizes a three-dimensional force integration model, calculating node positions over successive iterations to minimize edge crossings and optimize spacing<sup><a href="#ref-1">1</a></sup>.
+                    </p>
+                    <p>
+                        At each tick of the physics engine, the net force acting on each node \(i\) is calculated as the sum of repulsive forces from all other nodes, attractive forces along connected links, and centripetal forces drawing the graph toward the center of the scene<sup><a href="#ref-28">28</a></sup>:
+                    </p>
+                    
+                    \[\mathbf{F}_i = \mathbf{F}_{i,\text{repulsive}} + \mathbf{F}_{i,\text{attractive}} + \mathbf{F}_{i,\text{gravity}}\]
+                    
+                    <p>
+                        The component forces are mathematically expressed as:
+                    </p>
+
+                    \[\mathbf{F}_{i,\text{repulsive}} = \sum_{j \neq i} \left( \frac{k_{\text{rep}}}{\|\mathbf{p}_i - \mathbf{p}_j\|^2} \right) \mathbf{\hat{u}}_{ij}\]
+
+                    \[\mathbf{F}_{i,\text{attractive}} = \sum_{j \in \text{Adj}(i)} \left( k_{\text{att}} \cdot \|\mathbf{p}_i - \mathbf{p}_j\| \right) \mathbf{\hat{u}}_{ji}\]
+
+                    \[\mathbf{F}_{i,\text{gravity}} = -k_{\text{grav}} \cdot \mathbf{p}_i\]
+
+                    <p>
+                        Where \(\mathbf{p}_i = [x_i \quad y_i \quad z_i]^T\) represents the coordinate position of node \(i\) in \(\mathbb{R}^3\), and \(\mathbf{\hat{u}}_{ij}\) is the unit vector pointing from node \(j\) to node \(i\)<sup><a href="#ref-28">28</a></sup>. Once the forces reach equilibrium, these calculated positions are applied to the 3D meshes in the Three.js viewport, providing an optimal spatial layout for complex system structures<sup><a href="#ref-16">16</a></sup>.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Real-Time Interactive Overlay Integration</h2>
+                    <p>
+                        To render expandable code panels and schema templates directly alongside 3D meshes, the system uses a dual-renderer setup. It runs a standard WebGL renderer to draw the 3D nodes and link geometries, alongside a CSS3DRenderer that projects interactive HTML elements into the same 3D coordinate space. Both renderers share a single projection camera to keep the 2D HTML layers perfectly synchronized with the 3D scene during camera pan, zoom, and rotate gestures.
+                    </p>
+
+                    <div class="article-image-box">
+                        <img src="../assets/images/Dual_Renderer_Pipeline.png" alt="Dual Renderer Pipeline">
+                        <div class="article-image-caption">Figure 4: Integration pipeline of the WebGL and CSS3D rendering loops using a shared camera orbit.</div>
+                    </div>
+
+                    <p>
+                        To display the collapsible JSON schema templates clearly, the overlay system maps a responsive HTML component to each node<sup><a href="#ref-14">14</a></sup>. When closed, the card displays as a minimal, compact indicator<sup><a href="#ref-20">20</a></sup>. When clicked, the component expands into a full schema inspector, loading data templates via a localized Monaco Editor widget<sup><a href="#ref-14">14</a></sup>.
+                    </p>
+                    <p>
+                        To handle clicks across both rendering layers, the viewport container uses CSS pointer-events to manage events<sup><a href="#ref-23">23</a></sup>. The overlay root blocks pointer interactions globally, allowing drag gestures to pass directly to the WebGL canvas<sup><a href="#ref-23">23</a></sup>. However, individual interactive HTML panels opt back in to mouse control, allowing developers to scroll, select, and interact with the code structures directly<sup><a href="#ref-23">23</a></sup>.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Optimizing Memory and Rendering Cycles</h2>
+                    <p>
+                        Maintaining smooth performance at 60 FPS requires careful optimization of memory and draw calls, particularly when visualizing large architectures with hundreds of active nodes and connectors<sup><a href="#ref-1">1</a></sup>.
+                    </p>
+                    <p>
+                        The layout engine implements several optimization techniques to keep rendering performance high:
+                    </p>
+                    <ol>
+                        <li>
+                            <strong>Geometry Batching:</strong> Rather than instantiating a unique mesh object and material for every link, the engine groups lines into a single, merged coordinate array<sup><a href="#ref-20">20</a></sup>. Using a single <code>THREE.LineSegments</code> mesh reduces draw calls significantly, preventing GPU overhead<sup><a href="#ref-1">1</a></sup>.
+                        </li>
+                        <li>
+                            <strong>Imperative Frame Updates:</strong> To bypass the performance overhead of React's virtual DOM reconciliation loop, the rendering engine decouples node position calculations from React's state updates<sup><a href="#ref-16">16</a></sup>. The physics engine calculates position vectors inside a dedicated web worker<sup><a href="#ref-28">28</a></sup>. In the main thread, the Three.js objects are updated imperatively via direct references (refs) during the <code>useFrame</code> render loop, keeping updates highly responsive<sup><a href="#ref-16">16</a></sup>.
+                        </li>
+                        <li>
+                            <strong>Active Culling and Level-of-Detail (LoD) Scaling:</strong> The system implements active camera frustum culling, bypassing calculation cycles for nodes and panels that fall outside the active view<sup><a href="#ref-16">16</a></sup>. Additionally, the level-of-detail engine scales down rendering complexity based on camera distance, rendering simple visual proxies at wide zooms and loading complete interactive panels only when the user zooms in closely<sup><a href="#ref-1">1</a></sup>.
+                        </li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h2>Strategic Conclusions</h2>
+                    <p>
+                        The shift toward dynamic 3D architectural virtualization represents a major evolution in how software development teams document, analyze, and manage complex system topologies<sup><a href="#ref-1">1</a></sup>. By replacing static, manual diagrams with interactive spaces rendered directly from system metadata, this paradigm resolves the dual issues of visual clutter and diagram drift<sup><a href="#ref-7">7</a></sup>.
+                    </p>
+                    <p>
+                        Originally conceived by Murat Kağan Temel, this concept provides a unified, interactive source of truth, allowing teams to explore nested structures, trace operational paths node-by-node, and examine live code schemas directly inside the visualization<sup><a href="#ref-15">15</a></sup>.
+                    </p>
+                    <p>
+                        As microservices, distributed cloud architectures, and cloud-native systems continue to grow in complexity, adopting interactive 3D documentation pipelines will be essential for teams to maintain clear design alignment, speed up debugging, and simplify technical communication across the development lifecycle<sup><a href="#ref-2">2</a></sup>.
+                    </p>
+                </section>
+
+                <!-- References Section -->
+                <section class="references-section">
+                    <h2>Works Cited</h2>
+                    <ol class="references-list">
+                        <li id="ref-1">Three.js Interfaces: Production 3D for Web Applications | IGC - Intelligent Graphic & Code, <a href="https://www.intelligentgraphicandcode.com/development/threejs-interfaces" target="_blank" rel="noopener noreferrer">intelligentgraphicandcode.com</a></li>
+                        <li id="ref-2">5G Service-Based Architecture - Devopedia, <a href="https://devopedia.org/5g-service-based-architecture" target="_blank" rel="noopener noreferrer">devopedia.org</a></li>
+                        <li id="ref-3">Best Architecture Diagrams Software | 2026 Edition - WifiTalents, <a href="https://wifitalents.com/best/architecture-diagrams-software/" target="_blank" rel="noopener noreferrer">wifitalents.com</a></li>
+                        <li id="ref-4">AI Diagramming Tools vs Diagram-as-Code: Which Is Better? - FlowcastGPT, <a href="https://www.flowcastgpt.com/blog/ai-diagramming-tools-vs-diagram-as-code-which-is-better" target="_blank" rel="noopener noreferrer">flowcastgpt.com</a></li>
+                        <li id="ref-5">Top 10 Best Architecture Diagrams Software | Tested in 2026 - ZipDo, <a href="https://zipdo.co/best/architecture-diagrams-software/" target="_blank" rel="noopener noreferrer">zipdo.co</a></li>
+                        <li id="ref-6">Detecting Architectural Drift in Safety-Critical Firmware through Runtime Trace Analysis - arXiv, <a href="https://arxiv.org/pdf/2607.03135" target="_blank" rel="noopener noreferrer">arxiv.org</a></li>
+                        <li id="ref-7">Flowchart and Diagramming Tools for Complex Software Systems in 2026, <a href="https://www.in-com.com/blog/flowchart-software/" target="_blank" rel="noopener noreferrer">in-com.com</a></li>
+                        <li id="ref-8">How to fix your outdated Azure Diagrams forever - I dont like AI, <a href="https://www.idontlikeai.dev/how-to-fix-your-outdated-azure-diagrams-forever/" target="_blank" rel="noopener noreferrer">idontlikeai.dev</a></li>
+                        <li id="ref-11">Open-source 5G: Service Based Architecture: HTTP/2 & OpenAPI, <a href="https://nuradioconcepts.io/2024/01/23/open-source-5g-service-based-architecture-http-2-openapi/" target="_blank" rel="noopener noreferrer">nuradioconcepts.io</a></li>
+                        <li id="ref-12">Top 10 Best Dependency Diagram Software of 2026 - Gitnux, <a href="https://gitnux.org/best/dependency-diagram-software/" target="_blank" rel="noopener noreferrer">gitnux.org</a></li>
+                        <li id="ref-13">Building an Interactive 3D Experience with Three.js and React for Schildr - DEV Community, <a href="https://dev.to/touridev/building-an-interactive-3d-experience-with-threejs-and-react-for-schildr-2jbd" target="_blank" rel="noopener noreferrer">dev.to</a></li>
+                        <li id="ref-14">Perfectly aligning an interactive CSS3D terminal inside a curved WebGL CRT monitor, <a href="https://discourse.threejs.org/t/perfectly-aligning-an-interactive-css3d-terminal-inside-a-curved-webgl-crt-monitor/90601" target="_blank" rel="noopener noreferrer">discourse.threejs.org</a></li>
+                        <li id="ref-15">hantheemp's gists · GitHub, <a href="https://gist.github.com/hantheemp" target="_blank" rel="noopener noreferrer">github.com/hantheemp</a></li>
+                        <li id="ref-16">The Ultimate Guide to Mastering Three.js for 3D Development, <a href="https://jsmastery.com/blogs/the-ultimate-guide-to-mastering-three-js-for-3d-development" target="_blank" rel="noopener noreferrer">jsmastery.com</a></li>
+                        <li id="ref-19">Visualizing graphs in 3D with WebGL - Neo4j, <a href="https://neo4j.com/blog/developer/visualizing-graphs-in-3d-with-webgl/" target="_blank" rel="noopener noreferrer">neo4j.com</a></li>
+                        <li id="ref-20">Changelog — Site Releases & Decisions - MindHYVE.ai, <a href="https://mindhyve.ai/changelog/" target="_blank" rel="noopener noreferrer">mindhyve.ai</a></li>
+                        <li id="ref-23">HTML and WebGL Integration with Three.js | IGC - Intelligent Graphic & Code, <a href="https://www.intelligentgraphicandcode.com/development/threejs-interfaces/html-integration" target="_blank" rel="noopener noreferrer">intelligentgraphicandcode.com</a></li>
+                        <li id="ref-26">Mastering 3D Visualization with Three.js: A Comprehensive Guide to Satellite Modeling and Animation - Homestyler, <a href="https://www.homestyler.com/article/floorplanner/mastering-d-visualization-with-threejs" target="_blank" rel="noopener noreferrer">homestyler.com</a></li>
+                        <li id="ref-28">3D force-directed graph component using ThreeJS/WebGL - GitHub, <a href="https://github.com/vasturiano/3d-force-graph" target="_blank" rel="noopener noreferrer">github.com/vasturiano</a></li>
+                        <li id="ref-29">Top 10 Best Arch Diagram Software | 2026 Expert Picks - Worldmetrics, <a href="https://worldmetrics.org/best/arch-diagram-software/" target="_blank" rel="noopener noreferrer">worldmetrics.org</a></li>
+                    </ol>
+                </section>
+
+            </div>
+        </article>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="https://github.com/Musteva" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="mailto:mustafadoganfucucu@gmail.com">Email</a>
+            </div>
+            <p>&copy; 2026 Mustafa DOĞAN. All rights reserved.</p>
+            <p id="visit-count" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Page visits: Loading...</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
